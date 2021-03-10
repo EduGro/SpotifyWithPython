@@ -49,4 +49,4 @@ while(True):
     playlist = result['context']['uri']
     playlistInfo = spotify.playlist(playlist)
     holder_playlist.value = playlistInfo['name']
-    time.sleep(1)
+    time.sleep(2.5)
