@@ -5,20 +5,19 @@ from SpotifyClientCredentials import SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, S
 from listener import ObjectHoldingTheValue
 import time
 
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET))
+# Log in
+spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET)) 
 
-#results = spotify.user
-#print(results)
-
+# Reads the playback
 scope = "user-read-playback-state"
 
+# Log in for a registered user (so we can know the playback)
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI,scope=scope))
 
-# results = sp.current_user()
-# print(results)
+
 result = sp.current_user_playing_track()
 # result['item']['album']['name'] in case we need to know the album name
-print(result['item']['name'])
+print(result['item']['name']) # Prints song name
 for artist in result['item']['artists']:
     print(artist['name'])
 
@@ -27,7 +26,6 @@ playlist = result['context']['uri']
 
 playlistInfo = spotify.playlist(playlist)
 print(playlistInfo['name'])
-# sp= spotify.client.Spotify(aut)
 
 def print_if_different_song(old_value, new_value):
     if(old_value != new_value):
@@ -37,9 +35,11 @@ def print_if_different_playlist(old_value, new_value):
     if(old_value != new_value):
         print(f'The last playlist was: {old_value}, the new playlist is: {new_value}')
 
+# Holder for listener in songs name
 holder = ObjectHoldingTheValue()
 holder.register_callback(print_if_different_song)
 
+# Holder for listener in playlist change
 holder_playlist = ObjectHoldingTheValue()
 holder_playlist.register_callback(print_if_different_playlist)
 
