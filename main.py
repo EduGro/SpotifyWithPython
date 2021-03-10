@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 from SpotifyClientCredentials import SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI
 from listener import ObjectHoldingTheValue
+import time
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET))
 
@@ -48,3 +49,4 @@ while(True):
     playlist = result['context']['uri']
     playlistInfo = spotify.playlist(playlist)
     holder_playlist.value = playlistInfo['name']
+    time.sleep(1)
